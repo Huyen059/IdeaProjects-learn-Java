@@ -6,23 +6,12 @@ public class CoffeeMachine {
     public static final String BUY = "buy";
     public static final String FILL = "fill";
     public static final String TAKE = "take";
-    public static final String EXIT = "exit";
     public static final String REMAINING = "remaining";
+    public static final String EXIT = "exit";
+    public static final String BACK = "back";
     public static final int ESPRESSO = 1;
     public static final int LATTE = 2;
     public static final int CAPPUCCINO = 3;
-    public static final int WATER_PER_ESPRESSO = 250;
-    public static final int BEAN_PER_ESPRESSO = 16;
-    public static final int PRICE_ESPRESSO = 4;
-    public static final int WATER_PER_LATTE = 350;
-    public static final int MILK_PER_LATTE = 75;
-    public static final int BEAN_PER_LATTE = 20;
-    public static final int PRICE_LATTE = 7;
-    public static final int WATER_PER_CAPPUCCINO = 200;
-    public static final int MILK_PER_CAPPUCCINO = 100;
-    public static final int BEAN_PER_CAPPUCCINO = 12;
-    public static final int PRICE_CAPPUCCINO = 6;
-    public static final String BACK = "back";
 
     public static Scanner scanner = new Scanner(System.in);
     public static int currentWater;
@@ -108,7 +97,7 @@ public class CoffeeMachine {
         String msg = "I have enough resources, making you a coffee!";
         switch (typeCoffee) {
             case ESPRESSO:
-                if (notEnoughWater(WATER_PER_ESPRESSO) || notEnoughBean(BEAN_PER_ESPRESSO)
+                if (notEnoughWater(Coffees.ESPRESSO.waterPerCup) || notEnoughBean(Coffees.ESPRESSO.beanPerCup)
                         || notEnoughCup()) {
                     break;
                 }
@@ -116,16 +105,16 @@ public class CoffeeMachine {
                 buyEspresso();
                 break;
             case LATTE:
-                if (notEnoughWater(WATER_PER_LATTE) || notEnoughMilk(MILK_PER_LATTE)
-                        || notEnoughBean(BEAN_PER_LATTE) || notEnoughCup()) {
+                if (notEnoughWater(Coffees.LATTE.waterPerCup) || notEnoughMilk(Coffees.LATTE.milkPerCup)
+                        || notEnoughBean(Coffees.LATTE.beanPerCup) || notEnoughCup()) {
                     break;
                 }
                 System.out.println(msg);
                 buyLatte();
                 break;
             case CAPPUCCINO:
-                if (notEnoughWater(WATER_PER_CAPPUCCINO) || notEnoughMilk(MILK_PER_CAPPUCCINO)
-                        || notEnoughBean(BEAN_PER_CAPPUCCINO) || notEnoughCup()) {
+                if (notEnoughWater(Coffees.CAPPUCCINO.waterPerCup) || notEnoughMilk(Coffees.CAPPUCCINO.milkPerCup)
+                        || notEnoughBean(Coffees.CAPPUCCINO.beanPerCup) || notEnoughCup()) {
                     break;
                 }
                 System.out.println(msg);
@@ -171,26 +160,26 @@ public class CoffeeMachine {
     }
 
     public static void buyEspresso() {
-        currentWater -= WATER_PER_ESPRESSO;
-        currentBean -= BEAN_PER_ESPRESSO;
+        currentWater -= Coffees.ESPRESSO.waterPerCup;
+        currentBean -= Coffees.ESPRESSO.beanPerCup;
         currentDisposableCups--;
-        currentMoney += PRICE_ESPRESSO;
+        currentMoney += Coffees.ESPRESSO.price;
     }
 
     public static void buyLatte() {
-        currentWater -= WATER_PER_LATTE;
-        currentMilk -= MILK_PER_LATTE;
-        currentBean -= BEAN_PER_LATTE;
+        currentWater -= Coffees.LATTE.waterPerCup;
+        currentMilk -= Coffees.LATTE.milkPerCup;
+        currentBean -= Coffees.LATTE.beanPerCup;
         currentDisposableCups--;
-        currentMoney += PRICE_LATTE;
+        currentMoney += Coffees.LATTE.price;
     }
 
     public static void buyCappuccino() {
-        currentWater -= WATER_PER_CAPPUCCINO;
-        currentMilk -= MILK_PER_CAPPUCCINO;
-        currentBean -= BEAN_PER_CAPPUCCINO;
+        currentWater -= Coffees.CAPPUCCINO.waterPerCup;
+        currentMilk -= Coffees.CAPPUCCINO.milkPerCup;
+        currentBean -= Coffees.CAPPUCCINO.beanPerCup;
         currentDisposableCups--;
-        currentMoney += PRICE_CAPPUCCINO;
+        currentMoney += Coffees.CAPPUCCINO.price;
     }
 
     public static void main(String[] args) {
@@ -200,5 +189,23 @@ public class CoffeeMachine {
             handleAction(action);
             action = getAction();
         }
+    }
+}
+
+enum Coffees {
+    ESPRESSO(250, 0, 16, 4),
+    LATTE(350, 75, 20, 7),
+    CAPPUCCINO(200, 100, 12, 6);
+
+    int waterPerCup;
+    int milkPerCup;
+    int beanPerCup;
+    int price;
+
+    Coffees(int waterPerCup, int milkPerCup, int beanPerCup, int price) {
+        this.waterPerCup = waterPerCup;
+        this.milkPerCup = milkPerCup;
+        this.beanPerCup = beanPerCup;
+        this.price = price;
     }
 }
