@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="CoffeeMachineTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-09-18T19:44:50" hostname="becode-HP-EliteBook-840-G1" time="0.42">
+<testsuite name="CoffeeMachineTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-09-20T20:44:02" hostname="becode-HP-EliteBook-840-G1" time="0.683">
   <properties/>
-  <testcase name="start" classname="CoffeeMachineTest" time="0.42"/>
+  <testcase name="start" classname="CoffeeMachineTest" time="0.683"/>
   <system-out><![CDATA[?[1;31m
 Start test 1?[0m
 Write action (buy, fill, take, remaining, exit): 

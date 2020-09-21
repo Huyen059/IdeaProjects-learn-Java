@@ -72,12 +72,49 @@ public class Main {
 
 //        Output True if its value is within the interval (−15,12]∪(14,17)∪[19,+∞),
 //        and False otherwise (case sensitive).
-        int num = scanner.nextInt();
-        if ((num > -15 && num <= 12) || (num > 14 && num < 17) || (num >= 19)) {
-            System.out.println("True");
-        } else {
-            System.out.println("False");
+//        int num = scanner.nextInt();
+//        if ((num > -15 && num <= 12) || (num > 14 && num < 17) || (num >= 19)) {
+//            System.out.println("True");
+//        } else {
+//            System.out.println("False");
+//        }
+
+        String input = scanner.nextLine();
+        StringBuilder output = new StringBuilder();
+        int count = 0;
+
+        for (int i = 0; i < input.length(); i++) {
+            if (output.length() == 0) {
+                output.append(input.charAt(i));
+                count = 1;
+                if (i == input.length() - 1) {
+                    output.append(count);
+                    break;
+                }
+                continue;
+            }
+
+            if (input.charAt(i) != output.charAt(output.length() - 1)) {
+                output.append(count);
+                count = 1;
+                output.append(input.charAt(i));
+                if (i == input.length() - 1) {
+                    output.append(count);
+                    break;
+                } else {
+
+                    continue;
+                }
+            }
+
+            count++;
+
+            if (i == input.length() - 1) {
+                output.append(count);
+            }
         }
+
+        System.out.println(output);
 
     }
 }
