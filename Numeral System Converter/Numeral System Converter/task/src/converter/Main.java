@@ -1,5 +1,6 @@
 package converter;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -7,6 +8,9 @@ public class Main {
     public static final int MAX_FRACTION = 5;
 
     public static String convertNumber(int sourceRadix, String sourceNumber, int targetRadix) {
+        if (sourceRadix < 1 || targetRadix < 1 || sourceRadix > 36 || targetRadix > 36) {
+            return "error";
+        }
         String[] splitSourceNumber = sourceNumber.split("\\.");
         if (splitSourceNumber.length == 1) {
             return convertInteger(sourceRadix, sourceNumber, targetRadix);
@@ -120,11 +124,15 @@ public class Main {
 //        System.out.println(output);
 
 //        Stage 5
-        int sourceRadix = scanner.nextInt();
-        String sourceNumber = scanner.next();
-        int targetRadix = scanner.nextInt();
+        try {
+            int sourceRadix = scanner.nextInt();
+            String sourceNumber = scanner.next();
+            int targetRadix = scanner.nextInt();
 
-        System.out.println(convertNumber(sourceRadix, sourceNumber, targetRadix));
+            System.out.println(convertNumber(sourceRadix, sourceNumber, targetRadix));
+        } catch (Exception e) {
+            System.out.println("error");
+        }
 
 
     }
