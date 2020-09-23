@@ -10,6 +10,7 @@ public class Main {
         System.out.print("1. Add matrices\n" +
                 "2. Multiply matrix by a constant\n" +
                 "3. Multiply matrices\n" +
+                "4. Transpose matrix\n" +
                 "0. Exit\n" +
                 "Your choice: ");
         return scanner.nextInt();
@@ -61,7 +62,14 @@ public class Main {
                 System.out.println("Number of columns of matrix 1 has to be equal to number of rows of matrix 2.");
                 handleChoice(choice);
                 break;
-            case 0:
+            case 4:
+                int transposeOption = getTransposeOption();
+                System.out.print("Enter matrix size: ");
+                dimension = getDimension();
+                System.out.println("Enter matrix:");
+                double[][] matrix5 = getMatrix(dimension[0], dimension[1]);
+                display(transpose(transposeOption, matrix5));
+                break;
             default:
                 break;
         }
@@ -70,7 +78,7 @@ public class Main {
     static int[] getDimension() {
         int row = scanner.nextInt();
         int col = scanner.nextInt();
-        return new int[] {row, col};
+        return new int[]{row, col};
     }
 
     static double[][] getMatrix(int row, int column) {
@@ -127,6 +135,80 @@ public class Main {
                     value += matrix1[i][k] * matrix2[k][j];
                 }
                 result[i][j] = value;
+            }
+        }
+        return result;
+    }
+
+    static int getTransposeOption() {
+        System.out.print("1. Main diagonal\n" +
+                "2. Side diagonal\n" +
+                "3. Vertical line\n" +
+                "4. Horizontal line\n" +
+                "Your choice: ");
+        return scanner.nextInt();
+    }
+
+    static double[][] transpose(int transposeOption, double[][] matrix) {
+        double[][] result = new double[matrix.length][matrix[0].length];
+        switch (transposeOption) {
+            case 1:
+                result = transposeMainDiagonal(matrix);
+                break;
+            case 2:
+                result = transposeSideDiagonal(matrix);
+                break;
+            case 3:
+                result = transposeVerticalLine(matrix);
+                break;
+            case 4:
+                result = transposeHorizontalLine(matrix);
+                break;
+            default:
+                break;
+        }
+        return result;
+    }
+
+    static double[][] transposeMainDiagonal(double[][] matrix) {
+        int size = matrix.length;
+        double[][] result = new double[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                result[i][j] = matrix[j][i];
+            }
+        }
+        return result;
+    }
+
+    static double[][] transposeSideDiagonal(double[][] matrix) {
+        int size = matrix.length;
+        double[][] result = new double[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                result[i][j] = matrix[size - 1 - j][size - 1 - i];
+            }
+        }
+        return result;
+    }
+
+    static double[][] transposeVerticalLine(double[][] matrix) {
+        int size = matrix.length;
+        double[][] result = new double[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                result[i][j] = matrix[i][size - 1 - j];
+            }
+        }
+        return result;
+    }
+
+    static double[][] transposeHorizontalLine(double[][] matrix) {
+        int size = matrix.length;
+        double[][] result = new double[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                result[i][j] = matrix[size - 1 - i][j];
             }
         }
         return result;

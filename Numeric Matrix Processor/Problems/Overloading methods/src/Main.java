@@ -7,9 +7,9 @@ public class Main {
     }
 
     // write a method here
-     public static int getMaxMinusCurrent(int val) {
+    public static int getMaxMinusCurrent(int val) {
         return Integer.MAX_VALUE - val;
-     }
+    }
 
     // Do not change code below
 
