@@ -1,16 +1,27 @@
 package processor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
     static Scanner scanner = new Scanner(System.in);
 
+    public static void main(String[] args) {
+        int choice = getChoice();
+        while (choice != 0) {
+            handleChoice(choice);
+            choice = getChoice();
+        }
+    }
+
     static int getChoice() {
         System.out.print("1. Add matrices\n" +
                 "2. Multiply matrix by a constant\n" +
                 "3. Multiply matrices\n" +
                 "4. Transpose matrix\n" +
+                "5. Calculate a determinant\n" +
+                "6. Inverse matrix\n" +
                 "0. Exit\n" +
                 "Your choice: ");
         return scanner.nextInt();
@@ -69,6 +80,21 @@ public class Main {
                 System.out.println("Enter matrix:");
                 double[][] matrix5 = getMatrix(dimension[0], dimension[1]);
                 display(transpose(transposeOption, matrix5));
+                break;
+            case 5:
+                System.out.print("Enter matrix size: ");
+                dimension = getDimension();
+                System.out.println("Enter matrix:");
+                double[][] matrix6 = getMatrix(dimension[0], dimension[1]);
+                System.out.println(calculateDeterminant(matrix6));
+                break;
+            case 6:
+                System.out.print("Enter matrix size: ");
+                dimension = getDimension();
+                System.out.println("Enter matrix:");
+                double[][] matrix7 = getMatrix(dimension[0], dimension[1]);
+                System.out.println("The result is:");
+                display(inverse(matrix7));
                 break;
             default:
                 break;
@@ -223,11 +249,61 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
-        int choice = getChoice();
-        while (choice != 0) {
-            handleChoice(choice);
-            choice = getChoice();
+    static double calculateDeterminant(double[][] matrix) {
+        int size = matrix.length;
+
+        if (size == 1) {
+            return matrix[0][0];
+        }
+
+        if (size == 2) {
+            return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+        }
+
+        double result = 0;
+        for (int j1 = 0; j1 < size; j1++) {
+            double[][] subMatrix = generateSubMatrix(matrix, size, 0, j1);
+            result += Math.pow(-1.0, 1.0 + j1 + 1.0) * matrix[0][j1] * calculateDeterminant(subMatrix);
+        }
+        return result;
+    }
+
+    static double[][] generateSubMatrix(double[][] matrix, int size, int i1, int j1) {
+        double[][] subMatrix = new double[size - 1][size - 1];
+        int i2 = 0;
+        for (int i = 0; i < size; i++) {
+            if (i == i1) {
+                continue;
+            }
+            int j2 = 0;
+            for (int j = 0; j < size; j++) {
+                if (j == j1) {
+                    continue;
+                }
+                subMatrix[i2][j2] = matrix[i][j];
+                j2++;
+            }
+            i2++;
+        }
+        return subMatrix;
+    }
+
+    static double[][] inverse(double[][] matrix) {
+        double determinant = calculateDeterminant(matrix);
+        int size = matrix.length;
+        double[][] cofactors = new double[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                double[][] cofactor = generateSubMatrix(matrix, size, i, j);
+                cofactors[i][j] = Math.pow(-1, i + j) * calculateDeterminant(cofactor);
+            }
+        }
+        double[][] transpose = transposeMainDiagonal(cofactors);
+        try {
+            return multiplyByNumber(transpose, 1 / determinant);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return cofactors;
         }
     }
 }
