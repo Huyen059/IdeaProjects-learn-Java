@@ -36,8 +36,12 @@ public class Main {
 
                 if (currentPlayer == Player.USER) {
                     userMove(game, character);
-                } else {
+                } else if (currentPlayer == Player.COMPUTER_EASY) {
+                    System.out.println("Making move level \"easy\"");
                     computerMoveLevelEasy(game, character);
+                } else if (currentPlayer == Player.COMPUTER_MEDIUM) {
+                    System.out.println("Making move level \"medium\"");
+                    computerMoveLevelMedium(game, character);
                 }
 
                 displayGame(game);
@@ -77,20 +81,19 @@ public class Main {
             return;
         }
 
-        for (int i = 1; i < 3; i++) {
-            if (!inputs[i].equals(Player.USER.name) && !inputs[i].equals(Player.COMPUTER_EASY.name)) {
-                getCommand();
+        for (Player role : allPlayerRoles) {
+            if (inputs[1].equals(role.name)) {
+                player1 = role;
+            }
+
+            if (inputs[2].equals(role.name)) {
+                player2 = role;
             }
         }
 
-        for (Player allPlayerRole : allPlayerRoles) {
-            if (inputs[1].equals(allPlayerRole.name)) {
-                player1 = allPlayerRole;
-            }
-
-            if (inputs[2].equals(allPlayerRole.name)) {
-                player2 = allPlayerRole;
-            }
+        if (player1 == null || player2 == null) {
+            System.out.println("Please enter correct players.");
+            getCommand();
         }
     }
 
@@ -212,7 +215,6 @@ public class Main {
     }
 
     static void computerMoveLevelEasy(String[][] game, String character) {
-        System.out.println("Making move level \"easy\"");
         Random random = new Random(System.currentTimeMillis());
         int[] indexes = new int[2];
         indexes[0] = random.nextInt(3);
@@ -222,6 +224,91 @@ public class Main {
             indexes[1] = random.nextInt(3);
         }
         game[indexes[0]][indexes[1]] = character;
+    }
+
+    static void computerMoveLevelMedium(String[][] game, String character) {
+        for (int i = 0; i < DIMENSION; i++) {
+            if (game[i][0].equals(game[i][1]) && !game[i][0].equals(" ")) {
+                if (!isOccupied(game, new int[] {i, 2})) {
+                    game[i][2] = character;
+                    return;
+                }
+            }
+
+            if (game[i][0].equals(game[i][2]) && !game[i][0].equals(" ")) {
+                if (!isOccupied(game, new int[] {i, 1})) {
+                    game[i][1] = character;
+                    return;
+                }
+            }
+
+            if (game[i][1].equals(game[i][2]) && !game[i][1].equals(" ")) {
+                if (!isOccupied(game, new int[] {i, 0})) {
+                    game[i][0] = character;
+                    return;
+                }
+            }
+
+            if (game[0][i].equals(game[1][i]) && !game[0][i].equals(" ")) {
+                if (!isOccupied(game, new int[] {2, i})) {
+                    game[2][i] = character;
+                    return;
+                }
+            }
+
+            if (game[0][i].equals(game[2][i]) && !game[0][i].equals(" ")) {
+                if (!isOccupied(game, new int[] {1, i})) {
+                    game[1][i] = character;
+                    return;
+                }
+            }
+
+            if (game[1][i].equals(game[2][i]) && !game[1][i].equals(" ")) {
+                if (!isOccupied(game, new int[] {0, i})) {
+                    game[0][i] = character;
+                    return;
+                }
+            }
+        }
+
+        if (game[0][0].equals(game[1][1]) && !game[0][0].equals(" ")) {
+            if (!isOccupied(game, new int[] {2, 2})) {
+                game[2][2] = character;
+                return;
+            }
+        }
+
+        if (!game[0][0].equals(" ")
+                && (game[0][0].equals(game[2][2])
+                || game[0][2].equals(game[2][0]))) {
+            if (!isOccupied(game, new int[] {1, 1})) {
+                game[1][1] = character;
+                return;
+            }
+        }
+
+        if (game[2][2].equals(game[1][1]) && !game[1][1].equals(" ")) {
+            if (!isOccupied(game, new int[] {0, 0})) {
+                game[0][0] = character;
+                return;
+            }
+        }
+
+        if (game[0][2].equals(game[1][1]) && !game[1][1].equals(" ")) {
+            if (!isOccupied(game, new int[] {2, 0})) {
+                game[2][0] = character;
+                return;
+            }
+        }
+
+        if (game[2][0].equals(game[1][1]) && !game[1][1].equals(" ")) {
+            if (!isOccupied(game, new int[] {0, 2})) {
+                game[0][2] = character;
+                return;
+            }
+        }
+
+        computerMoveLevelEasy(game, character);
     }
 }
 
@@ -239,7 +326,8 @@ enum GameState {
 
 enum Player {
     USER("user"),
-    COMPUTER_EASY("easy");
+    COMPUTER_EASY("easy"),
+    COMPUTER_MEDIUM("medium");
     String name;
 
     Player(String name) {
