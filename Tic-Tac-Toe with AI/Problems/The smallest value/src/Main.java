@@ -5,9 +5,9 @@ class Main {
     public static void main(String[] args) {
         // put your code here
         Scanner scanner = new Scanner(System.in);
-        BigInteger M = scanner.nextBigInteger();
+        BigInteger m = scanner.nextBigInteger();
         long n = 0;
-        while (calcFactorial(n).compareTo(M) < 0) {
+        while (calcFactorial(n).compareTo(m) < 0) {
             n++;
         }
         System.out.println(n - 1);
@@ -28,7 +28,7 @@ class Main {
         factorials[1] = BigInteger.ONE;
         factorials[2] = BigInteger.valueOf(2);
         for (int i = 3; i < n; i++) {
-            factorials[i] = BigInteger.valueOf(i).multiply(factorials[i-1]);
+            factorials[i] = BigInteger.valueOf(i).multiply(factorials[i - 1]);
         }
         return factorials[(int) n - 1];
     }

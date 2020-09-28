@@ -9,36 +9,89 @@ public class Main {
     public static final int TOTAL_LENGTH_OF_FIELD = 9;
     static Scanner scanner = new Scanner(System.in);
     static GameState state;
+    static Player[] allPlayerRoles = Player.values();
+    static Player player1;
+    static Player player2;
+    static boolean exit = false;
 
     public static void main(String[] args) {
         // write your code here
-        String[][] game = startGame();
-        displayGame(game);
-        boolean isXPlaying = isXTurn(game);
-        boolean isGameEnd = false;
-        state = GameState.NOT_FINISH;
-        while (!isGameEnd) {
-            if (isXPlaying) {
-                userMove(game);
-            } else {
-                computerMoveLevelEasy(game);
-            }
-
+        getCommand();
+        while (!exit) {
+            String[][] game = startGame();
             displayGame(game);
-
-            if (checkThreeInALine(game)) {
-                isGameEnd = true;
-                state = isXPlaying ? GameState.X_WIN : GameState.O_WIN;
-            } else {
-                if (!hasEmptyElement(game)) {
-                    isGameEnd = true;
-                    state = GameState.DRAW;
+            boolean isXPlaying = true;
+            String character;
+            boolean isGameEnd = false;
+            state = GameState.NOT_FINISH;
+            Player currentPlayer;
+            while (!isGameEnd) {
+                if (isXPlaying) {
+                    character = "X";
+                    currentPlayer = player1;
+                } else {
+                    character = "O";
+                    currentPlayer = player2;
                 }
+
+                if (currentPlayer == Player.USER) {
+                    userMove(game, character);
+                } else {
+                    computerMoveLevelEasy(game, character);
+                }
+
+                displayGame(game);
+
+                if (checkThreeInALine(game)) {
+                    isGameEnd = true;
+                    state = isXPlaying ? GameState.X_WIN : GameState.O_WIN;
+                } else {
+                    if (!hasEmptyElement(game)) {
+                        isGameEnd = true;
+                        state = GameState.DRAW;
+                    }
+                }
+
+                isXPlaying = !isXPlaying;
+            }
+            System.out.println(state.message);
+            getCommand();
+        }
+    }
+
+    static void getCommand() {
+        System.out.print("Input command: ");
+        String input = scanner.nextLine();
+        if (input.equals("exit")) {
+            exit = true;
+            return;
+        }
+        getPlayers(input);
+    }
+
+    static void getPlayers(String command) {
+        String[] inputs = command.split(" ");
+        if (inputs.length != 3) {
+            System.out.println("Bad parameters!");
+            getCommand();
+            return;
+        }
+
+        for (int i = 1; i < 3; i++) {
+            if (!inputs[i].equals(Player.USER.name) && !inputs[i].equals(Player.COMPUTER_EASY.name)) {
+                getCommand();
+            }
+        }
+
+        for (Player allPlayerRole : allPlayerRoles) {
+            if (inputs[1].equals(allPlayerRole.name)) {
+                player1 = allPlayerRole;
             }
 
-            isXPlaying = !isXPlaying;
+            if (inputs[2].equals(allPlayerRole.name)) {
+                player2 = allPlayerRole;
+            }
         }
-        System.out.println(state.message);
     }
 
     static String[][] startGame() {
@@ -52,22 +105,6 @@ public class Main {
             }
         }
         return game;
-    }
-
-    static boolean isXTurn(String[][] matrix) {
-        int numberX = 0;
-        int numberO = 0;
-        for (int i = 0; i < DIMENSION; i++) {
-            for (int j = 0; j < DIMENSION; j++) {
-                if (matrix[i][j].equals("X")) {
-                    numberX++;
-                }
-                if (matrix[i][j].equals("O")) {
-                    numberO++;
-                }
-            }
-        }
-        return numberX <= numberO;
     }
 
     static void displayGame(String[][] game) {
@@ -84,10 +121,9 @@ public class Main {
 
     static int[] getCoordinates() {
         System.out.print("Enter the coordinates: ");
-        StringBuilder input = new StringBuilder();
-        input.append(scanner.next());
-        input.append(scanner.nextLine());
-        String[] numbersAsString = input.toString().split(" ");
+        String input = scanner.next() +
+                scanner.nextLine();
+        String[] numbersAsString = input.split(" ");
 
         try {
             int[] coordinates = Arrays.stream(numbersAsString)
@@ -137,46 +173,34 @@ public class Main {
     static boolean checkThreeInALine(String[][] matrix) {
         for (int i = 0; i < DIMENSION; i++) {
             // check each row i
-            if (matrix[i][0].equals(matrix[i][1])) {
-                if (matrix[i][2].equals(matrix[i][0])) {
-                    if (!matrix[i][0].equals(" ")) {
-                        return true;
-                    }
-                }
+            if (!matrix[i][0].equals(" ")
+                    && matrix[i][0].equals(matrix[i][1])
+                    && matrix[i][2].equals(matrix[i][0])) {
+                return true;
             }
 
             // check each column i
-            if (matrix[0][i].equals(matrix[1][i])) {
-                if (matrix[2][i].equals(matrix[0][i])) {
-                    if (!matrix[0][i].equals(" ")) {
-                        return true;
-                    }
-                }
+            if (!matrix[0][i].equals(" ")
+                    && matrix[0][i].equals(matrix[1][i])
+                    && matrix[2][i].equals(matrix[0][i])) {
+                return true;
             }
         }
 
         // check main diagonal
-        if (matrix[0][0].equals(matrix[1][1])) {
-            if (matrix[0][0].equals(matrix[2][2])) {
-                if (!matrix[0][0].equals(" ")) {
-                    return true;
-                }
-            }
+        if (!matrix[0][0].equals(" ")
+                && matrix[0][0].equals(matrix[1][1])
+                && matrix[0][0].equals(matrix[2][2])) {
+            return true;
         }
 
-        // check side diagonal
-        if (matrix[0][2].equals(matrix[1][1])) {
-            if (matrix[1][1].equals(matrix[2][0])) {
-                if (!matrix[0][2].equals(" ")) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        // finally, check side diagonal
+        return !matrix[0][2].equals(" ")
+                && matrix[0][2].equals(matrix[1][1])
+                && matrix[1][1].equals(matrix[2][0]);
     }
 
-    static void userMove(String[][] game) {
+    static void userMove(String[][] game, String character) {
         int[] coordinates = getCoordinates();
         int[] indexes = convertCoordinateToIndex(coordinates);
         while (isOccupied(game, indexes)) {
@@ -184,12 +208,12 @@ public class Main {
             coordinates = getCoordinates();
             indexes = convertCoordinateToIndex(coordinates);
         }
-        game[indexes[0]][indexes[1]] = "X";
+        game[indexes[0]][indexes[1]] = character;
     }
 
-    static void computerMoveLevelEasy(String[][] game) {
+    static void computerMoveLevelEasy(String[][] game, String character) {
         System.out.println("Making move level \"easy\"");
-        Random random = new Random(3);
+        Random random = new Random(System.currentTimeMillis());
         int[] indexes = new int[2];
         indexes[0] = random.nextInt(3);
         indexes[1] = random.nextInt(3);
@@ -197,7 +221,7 @@ public class Main {
             indexes[0] = random.nextInt(3);
             indexes[1] = random.nextInt(3);
         }
-        game[indexes[0]][indexes[1]] = "O";
+        game[indexes[0]][indexes[1]] = character;
     }
 }
 
@@ -210,5 +234,15 @@ enum GameState {
 
     GameState(String message) {
         this.message = message;
+    }
+}
+
+enum Player {
+    USER("user"),
+    COMPUTER_EASY("easy");
+    String name;
+
+    Player(String name) {
+        this.name = name;
     }
 }
