@@ -1,5 +1,6 @@
 package tictactoe;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
@@ -8,6 +9,7 @@ public class Main {
     public static final int DIMENSION = 3;
     public static final int TOTAL_LENGTH_OF_FIELD = 9;
     static Scanner scanner = new Scanner(System.in);
+    static Random random = new Random(System.currentTimeMillis());
     static GameState state;
     static Player[] allPlayerRoles = Player.values();
     static Player player1;
@@ -215,7 +217,6 @@ public class Main {
     }
 
     static void computerMoveLevelEasy(String[][] game, String character) {
-        Random random = new Random(System.currentTimeMillis());
         int[] indexes = new int[2];
         indexes[0] = random.nextInt(3);
         indexes[1] = random.nextInt(3);
@@ -227,54 +228,48 @@ public class Main {
     }
 
     static void computerMoveLevelMedium(String[][] game, String character) {
+        ArrayList<int[]> availableMoves = new ArrayList<>();
         for (int i = 0; i < DIMENSION; i++) {
             if (game[i][0].equals(game[i][1]) && !game[i][0].equals(" ")) {
                 if (!isOccupied(game, new int[] {i, 2})) {
-                    game[i][2] = character;
-                    return;
+                    availableMoves.add(new int[] {i, 2});
                 }
             }
 
             if (game[i][0].equals(game[i][2]) && !game[i][0].equals(" ")) {
                 if (!isOccupied(game, new int[] {i, 1})) {
-                    game[i][1] = character;
-                    return;
+                    availableMoves.add(new int[] {i, 1});
                 }
             }
 
             if (game[i][1].equals(game[i][2]) && !game[i][1].equals(" ")) {
                 if (!isOccupied(game, new int[] {i, 0})) {
-                    game[i][0] = character;
-                    return;
+                    availableMoves.add(new int[] {i, 0});
                 }
             }
 
             if (game[0][i].equals(game[1][i]) && !game[0][i].equals(" ")) {
                 if (!isOccupied(game, new int[] {2, i})) {
-                    game[2][i] = character;
-                    return;
+                    availableMoves.add(new int[] {2, i});
                 }
             }
 
             if (game[0][i].equals(game[2][i]) && !game[0][i].equals(" ")) {
                 if (!isOccupied(game, new int[] {1, i})) {
-                    game[1][i] = character;
-                    return;
+                    availableMoves.add(new int[] {1, i});
                 }
             }
 
             if (game[1][i].equals(game[2][i]) && !game[1][i].equals(" ")) {
                 if (!isOccupied(game, new int[] {0, i})) {
-                    game[0][i] = character;
-                    return;
+                    availableMoves.add(new int[] {0, i});
                 }
             }
         }
 
         if (game[0][0].equals(game[1][1]) && !game[0][0].equals(" ")) {
             if (!isOccupied(game, new int[] {2, 2})) {
-                game[2][2] = character;
-                return;
+                availableMoves.add(new int[] {2, 2});
             }
         }
 
@@ -282,33 +277,35 @@ public class Main {
                 && (game[0][0].equals(game[2][2])
                 || game[0][2].equals(game[2][0]))) {
             if (!isOccupied(game, new int[] {1, 1})) {
-                game[1][1] = character;
-                return;
+                availableMoves.add(new int[] {1, 1});
             }
         }
 
         if (game[2][2].equals(game[1][1]) && !game[1][1].equals(" ")) {
             if (!isOccupied(game, new int[] {0, 0})) {
-                game[0][0] = character;
-                return;
+                availableMoves.add(new int[] {0, 0});
             }
         }
 
         if (game[0][2].equals(game[1][1]) && !game[1][1].equals(" ")) {
             if (!isOccupied(game, new int[] {2, 0})) {
-                game[2][0] = character;
-                return;
+                availableMoves.add(new int[] {2, 0});
             }
         }
 
         if (game[2][0].equals(game[1][1]) && !game[1][1].equals(" ")) {
             if (!isOccupied(game, new int[] {0, 2})) {
-                game[0][2] = character;
-                return;
+                availableMoves.add(new int[] {0, 2});
             }
         }
 
-        computerMoveLevelEasy(game, character);
+        if (availableMoves.size() == 0) {
+            computerMoveLevelEasy(game, character);
+        } else {
+            int pickMove = random.nextInt(availableMoves.size());
+            int[] indexes = availableMoves.get(pickMove);
+            game[indexes[0]][indexes[1]] = character;
+        }
     }
 }
 
