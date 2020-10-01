@@ -1,23 +1,35 @@
 package encryptdecrypt;
 
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        String action = scanner.nextLine().trim();
-        String input = scanner.nextLine().trim();
-        int shiftValue = scanner.nextInt();
+//        Scanner scanner = new Scanner(System.in);
+//        String action = scanner.nextLine().trim();
+//        String input = scanner.nextLine().trim();
+//        int shiftValue = scanner.nextInt();
+        String action = "enc";
+        int shiftValue = 0;
+        String input = "";
+
+        for (int i = 0; i < args.length - 1; i++) {
+            if (args[i].equals("-mode") && !args[i + 1].isEmpty()) {
+                action = args[i + 1];
+            }
+
+            if (args[i].equals("-key") && !args[i + 1].isEmpty()) {
+                shiftValue = Integer.parseInt(args[i + 1]);
+            }
+
+            if (args[i].equals("-data") && !args[i + 1].isEmpty()) {
+                input = args[i + 1];
+            }
+        }
+
         Translator translator = new Translator();
-        switch (action) {
-            case "enc":
-                System.out.println(translator.encrypt(input, shiftValue));
-                break;
-            case "dec":
-                System.out.println(translator.decrypt(input, shiftValue));
-                break;
-            default:
-                break;
+        if ("dec".equals(action)) {
+            System.out.println(translator.decrypt(input, shiftValue));
+        } else {
+            System.out.println(translator.encrypt(input, shiftValue));
         }
     }
 }
