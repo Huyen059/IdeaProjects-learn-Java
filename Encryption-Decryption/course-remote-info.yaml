@@ -6,7 +6,7 @@ hyperskill_project:
 stages:
 - id: 245
   step: 5387
-  is_completed: false
+  is_completed: true
 - id: 246
   step: 5388
   is_completed: false
