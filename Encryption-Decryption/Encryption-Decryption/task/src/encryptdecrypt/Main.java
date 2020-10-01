@@ -1,20 +1,29 @@
 package encryptdecrypt;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        String action = scanner.nextLine().trim();
         String input = scanner.nextLine().trim();
         int shiftValue = scanner.nextInt();
-        Encryption encryption = new Encryption();
-        System.out.println(encryption.encryption(input, shiftValue));
+        Translator translator = new Translator();
+        switch (action) {
+            case "enc":
+                System.out.println(translator.encrypt(input, shiftValue));
+                break;
+            case "dec":
+                System.out.println(translator.decrypt(input, shiftValue));
+                break;
+            default:
+                break;
+        }
     }
 }
 
-class Encryption {
+class Translator {
+    /*
     private final Map<Character, Character> keyPair = new HashMap<>();
 
     void generateKeyPair(int shiftValue) {
@@ -24,7 +33,7 @@ class Encryption {
         }
     }
 
-    String encryption(String input, int shiftValue) {
+    String encrypt(String input, int shiftValue) {
         this.generateKeyPair(shiftValue);
         StringBuilder output = new StringBuilder(input);
         for (int i = 0; i < input.length(); i++) {
@@ -32,6 +41,23 @@ class Encryption {
                 continue;
             }
             output.setCharAt(i, this.keyPair.get(input.charAt(i)));
+        }
+        return output.toString();
+    }
+     */
+
+    String encrypt(String input, int shiftValue) {
+        StringBuilder output = new StringBuilder(input);
+        for (int i = 0; i < input.length(); i++) {
+            output.setCharAt(i, (char) (input.charAt(i) + shiftValue));
+        }
+        return output.toString();
+    }
+
+    String decrypt(String input, int shiftValue) {
+        StringBuilder output = new StringBuilder(input);
+        for (int i = 0; i < input.length(); i++) {
+            output.setCharAt(i, (char) (input.charAt(i) - shiftValue));
         }
         return output.toString();
     }
