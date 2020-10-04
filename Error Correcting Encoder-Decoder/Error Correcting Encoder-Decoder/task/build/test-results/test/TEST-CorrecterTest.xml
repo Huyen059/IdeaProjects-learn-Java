@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="CorrecterTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-10-04T18:38:11" hostname="becode-HP-EliteBook-840-G1" time="0.123">
+<testsuite name="CorrecterTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-10-04T19:03:49" hostname="becode-HP-EliteBook-840-G1" time="0.113">
   <properties/>
-  <testcase name="start" classname="CorrecterTest" time="0.123"/>
+  <testcase name="start" classname="CorrecterTest" time="0.113"/>
   <system-out><![CDATA[?[1;31m
 Start test 1?[0m
 > Some text to test
-0omx tkxt2tonteUt
+Some text to test
+SSSooommmeee   ttteeexxxttt   tttooo   ttteeesssttt
+mSSboo1mmveeZ  xtt8ee7xxBttn  fttPooy  EttCee4ssftt
+Some text to test
 ?[1;31m
 Start test 2?[0m
 > send message to user with id #42354
-sead hes4agV tf uSerbwiyh wd A42B54
+send message to user with id #42354
+ssseeennnddd   mmmeeessssssaaagggeee   tttooo   uuussseeerrr   wwwiiittthhh   iiiddd   ###444222333555444
+ssceegnnXddR  Vmmhee4ssksskaaEggXeer  wttoooN  DuusssDeefrrk  bwwrii6tt7hhb  7iivddo  d##A44622l33i55644r
+send message to user with id #42354
 ?[1;31m
 Start test 3?[0m
 > thq
-thF
+thq
+ttthhhqqq
+EttxhhPqq
+thq
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
