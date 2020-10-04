@@ -121,6 +121,23 @@ files:
         }
     }
   learner_created: false
+- name: src/in.txt
+  visible: true
+  learner_created: true
+- name: src/out.txt
+  visible: true
+  learner_created: true
+- name: src/encryptdecrypt/in.txt
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/46/stages/249/implement
-status: Unchecked
+status: Failed
+feedback:
+  message: |-
+    Error in test #1
+
+    java.nio.file.NoSuchFileException
+
+    The file encryptdecrypt/in.txt can&#39;t be deleted after the end of the test. Probably you didn&#39;t close File or Scanner.
+  time: Fri, 02 Oct 2020 09:51:49 UTC
 record: -1

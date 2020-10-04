@@ -1,3 +1,2 @@
 encryptdecrypt/Main.java
  encryptdecrypt.Main
- encryptdecrypt.Translator
