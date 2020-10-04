@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="CorrecterTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-10-04T18:38:11" hostname="becode-HP-EliteBook-840-G1" time="0.123">
+  <properties/>
+  <testcase name="start" classname="CorrecterTest" time="0.123"/>
+  <system-out><![CDATA[?[1;31m
+Start test 1?[0m
+> Some text to test
+0omx tkxt2tonteUt
+?[1;31m
+Start test 2?[0m
+> send message to user with id #42354
+sead hes4agV tf uSerbwiyh wd A42B54
+?[1;31m
+Start test 3?[0m
+> thq
+thF
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
