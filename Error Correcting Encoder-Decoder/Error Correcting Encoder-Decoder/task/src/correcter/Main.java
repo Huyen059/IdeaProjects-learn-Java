@@ -1,20 +1,29 @@
 package correcter;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        try (Scanner scanner = new Scanner(System.in)) {
-            StringBuilder message = new StringBuilder(scanner.nextLine());
-            System.out.println(message.toString());
-            StringBuilder messageToSend = tripleCharacter(message);
-            System.out.println(messageToSend);
-            StringBuilder encodedMessage = encode(messageToSend);
-            System.out.println(encodedMessage.toString());
-            StringBuilder originalMessage = decode(encodedMessage);
-            System.out.println(originalMessage);
+//        try (Scanner scanner = new Scanner(System.in)) {
+//            StringBuilder message = new StringBuilder(scanner.nextLine());
+//            System.out.println(message.toString());
+//            StringBuilder messageToSend = tripleCharacter(message);
+//            System.out.println(messageToSend);
+//            StringBuilder encodedMessage = encode(messageToSend);
+//            System.out.println(encodedMessage.toString());
+//            StringBuilder originalMessage = decode(encodedMessage);
+//            System.out.println(originalMessage);
+//        }
+        int[] message = new int[] {114, 101, 97, 100, 32, 97, 98, 111, 117, 116, 32, 65, 83, 67, 73, 73};
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        for (int code : message) {
+            outputStream.write(code);
         }
+
+        System.out.println(outputStream.toString());
     }
 
     static StringBuilder tripleCharacter(StringBuilder message) {
