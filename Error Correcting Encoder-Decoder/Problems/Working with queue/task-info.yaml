@@ -8,5 +8,9 @@ files:
     \    }\n}"
   learner_created: false
 feedback_link: https://hyperskill.org/learn/step/2338
-status: Unchecked
+status: Solved
+feedback:
+  message: <html>Correct solution<br/><br/>Continue on <a href="https://hyperskill.org/learn/step/2338">JetBrains
+    Academy</a></html>
+  time: Wed, 07 Oct 2020 14:01:21 UTC
 record: -1
