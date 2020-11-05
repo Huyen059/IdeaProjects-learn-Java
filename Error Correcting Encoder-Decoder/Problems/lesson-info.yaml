@@ -62,3 +62,14 @@ content:
 - Multithreaded counter
 - Countdown counter
 - Counting number of instances
+- Interrupting a thread
+- Handling interruptions
+- Finding and starting a thread
+- Max of two integers
+- Getting distinct strings
+- Production of all numbers in the range
+- Messaging
+- Check whether a number is prime
+- How many tasks are finished
+- Execute Callable objects
+- How many Callable objects are there?
