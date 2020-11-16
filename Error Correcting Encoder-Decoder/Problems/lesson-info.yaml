@@ -104,3 +104,6 @@ content:
 - Powers of two
 - Counting clicks
 - The total sum of transaction by each account
+- Impement a default method
+- Resolve a diamond problem
+- Add new default method
